@@ -1,3 +1,5 @@
+## Used technologies:
+
 1. MVVM Architecture
 2. Coroutines
 3. LiveData
