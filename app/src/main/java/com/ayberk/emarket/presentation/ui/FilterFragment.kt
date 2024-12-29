@@ -5,13 +5,18 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.fonts.Font
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
@@ -73,6 +78,9 @@ class FilterFragment : BottomSheetDialogFragment(){
         setupObservers()
 
         setToolbar()
+        setupSearchViews()
+        setupSearchViewsModel()
+
 
         binding.btnFilter.setOnClickListener {
             findNavController().popBackStack()
@@ -102,6 +110,7 @@ class FilterFragment : BottomSheetDialogFragment(){
         return dialog
     }
 
+
     private fun setupObservers(){
         filterViewModel.brands.observe(viewLifecycleOwner, Observer { brands ->
             populateCheckboxes(binding, brands)
@@ -116,45 +125,108 @@ class FilterFragment : BottomSheetDialogFragment(){
         filterViewModel.models.observe(viewLifecycleOwner, Observer { models ->
             modelsCheckboxes(binding,models)
         })
-
     }
 
-    private fun populateCheckboxes(binding: FragmentFilterBinding, brands: List<String>) {
+    private fun setupSearchViews() {
+        binding.searchBrandComplete.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                charSequence?.let { query ->
+                    filterViewModel.brands.value?.let { brands ->
+                        populateCheckboxes(binding, brands, query.toString())
+                    }
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+    }
+
+    private fun setupSearchViewsModel() {
+        binding.searchModelComplete.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                charSequence?.let { query ->
+                    filterViewModel.models.value?.let { models ->
+                        modelsCheckboxes(binding, models, query.toString())
+                    }
+                }
+            }
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+    }
+
+
+    private fun populateCheckboxes(binding: FragmentFilterBinding, brands: List<String>, query: String? = "") {
         val checkBoxContainer = binding.checkboxBrandContainer
         checkBoxContainer.removeAllViews()
 
-        brands.forEach { brand ->
-            val checkBox = CheckBox(context)
-            checkBox.text = brand
-            checkBox.tag = brand
+        val filteredBrands = if (query.isNullOrEmpty()) {
+            brands
+        } else {
+            brands.filter { it.contains(query, ignoreCase = true) }
+        }
 
-            checkBox.buttonTintList = resources.getColorStateList(R.color.toolbar_blue, null)
-
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-
+        if (filteredBrands.isEmpty()) {
+            val noResultsText = TextView(context).apply {
+                text = "No brands found"
+                setTextColor(Color.GRAY)
+                gravity = Gravity.CENTER
             }
+            checkBoxContainer.addView(noResultsText)
+        } else {
+            filteredBrands.forEach { brand ->
+                val checkBox = CheckBox(context)
+                checkBox.text = brand
+                checkBox.tag = brand
 
-            checkBoxContainer.addView(checkBox)
+                checkBox.buttonTintList = resources.getColorStateList(R.color.toolbar_blue, null)
+
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+
+                }
+
+                checkBoxContainer.addView(checkBox)
+            }
         }
     }
 
-    private fun modelsCheckboxes(binding: FragmentFilterBinding, models: List<String>) {
+
+    private fun modelsCheckboxes(binding: FragmentFilterBinding, models: List<String>, query: String? = "") {
         val checkBoxContainer = binding.checkboxModelContainer
         checkBoxContainer.removeAllViews()
 
         val montserratFont = ResourcesCompat.getFont(requireContext(), R.font.montserrat)
-        models.forEach { model ->
-            val checkBox = CheckBox(context)
-            checkBox.text = model
-            checkBox.tag = model
-            checkBox.typeface = montserratFont
 
-            checkBox.buttonTintList = resources.getColorStateList(R.color.toolbar_blue, null)
+        val filteredModels = if (query.isNullOrEmpty()) {
+            models
+        } else {
+            models.filter { it.contains(query, ignoreCase = true) }
+        }
 
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-
+        if (filteredModels.isEmpty()) {
+            val noResultsText = TextView(context).apply {
+                text = "No models found"
+                setTextColor(Color.GRAY)
+                gravity = Gravity.CENTER
             }
-            checkBoxContainer.addView(checkBox)
+            checkBoxContainer.addView(noResultsText)
+        } else {
+            filteredModels.forEach { model ->
+                val checkBox = CheckBox(context)
+                checkBox.text = model
+                checkBox.tag = model
+                checkBox.typeface = montserratFont
+
+                checkBox.buttonTintList = resources.getColorStateList(R.color.toolbar_blue, null)
+
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                }
+
+                checkBoxContainer.addView(checkBox)
+            }
         }
     }
 

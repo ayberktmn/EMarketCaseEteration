@@ -96,7 +96,6 @@ class HomeProductsAdapter(
                 val filteredList = if (query.isEmpty()) {
                     products
                 } else {
-
                     products.filter {
                         it.name.contains(query, ignoreCase = true) || it.model.contains(query, ignoreCase = true)
                     }
