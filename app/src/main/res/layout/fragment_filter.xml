@@ -1,0 +1,170 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.FilterFragment">
+
+    <!-- Toolbar -->
+    <include
+        android:id="@+id/headers"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Main ScrollView -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headers"
+        app:layout_constraintBottom_toTopOf="@id/btnFilter">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Sort By Section -->
+            <TextView
+                android:id="@+id/txt_Sort"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Sort By"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <ScrollView
+                android:id="@+id/scrollViewSortBy"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/sortByRcylerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </ScrollView>
+
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black" />
+
+            <!-- Brand Section -->
+            <TextView
+                android:id="@+id/txt_Brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brand"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="match_parent"
+                android:layout_margin="4dp"
+                android:layout_height="200dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/searchBrandComplete"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/rounded_background"
+                        android:drawableStart="@drawable/search"
+                        android:padding="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:hint=" Search"
+                        android:inputType="text" />
+
+                    <LinearLayout
+                        android:id="@+id/checkboxBrandContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </ScrollView>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black" />
+
+            <!-- Model Section -->
+            <TextView
+                android:id="@+id/txt_Model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Model"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <ScrollView
+                android:id="@+id/scrollViewModel"
+                android:layout_width="match_parent"
+                android:layout_margin="4dp"
+                android:layout_height="200dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/searchModelComplete"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/rounded_background"
+                        android:drawableStart="@drawable/search"
+                        android:padding="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:hint=" Search"
+                        android:inputType="text" />
+
+                    <LinearLayout
+                        android:id="@+id/checkboxModelContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Filter Button -->
+    <Button
+        android:id="@+id/btnFilter"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Apply Filter"
+        android:layout_margin="16dp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/toolbar_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

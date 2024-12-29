@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">EMarket</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="home_Filters">Filters :</string>
+    <string name="home_FiltersBtn">Select Filter</string>
+    <string name="product_image">Product Image</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">15.000 ₺</string>
+    <string name="product_model">CTS</string>
+    <string name="product_title">Product Title</string>
+    <string name="radio1">Old to new</string>
+    <string name="radio2">New to old</string>
+    <string name="radio3">Price hight to low</string>
+    <string name="radio4">Price low to High</string>
+    <string name="checkbox1">Apple</string>
+    <string name="checkbox2">Samsung</string>
+    <string name="checkbox3">Huawei</string>
+
+
+    <dimen name="title_margin">16dp</dimen>
+
+
+</resources>

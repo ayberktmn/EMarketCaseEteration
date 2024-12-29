@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="toolbar_blue">#2A59FE</color>
+    <color name="Btn_Filters">#D9D9D9</color>
+    <color name="Btn_Products">#2A59FE</color>
+    <color name="transparent">#00000000</color>
+    <color name="nav_item_color">#000000</color>
+    <color name="red">#F90000</color>
+
+</resources>
