@@ -171,7 +171,7 @@ class FilterFragment : BottomSheetDialogFragment(){
         binding.headers.backButton.setImageResource(R.drawable.close)
 
         binding.headers.backButton.setOnClickListener {
-            dismiss()
+            findNavController().popBackStack()
         }
     }
 }

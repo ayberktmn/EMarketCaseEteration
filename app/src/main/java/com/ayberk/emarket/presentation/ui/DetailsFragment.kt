@@ -64,7 +64,19 @@ class DetailsFragment : Fragment() {
             addToCart(product)
         }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            val isFavorite = withContext(Dispatchers.IO) {
+                favoriteDao.isFavorite(id = product.id)
+            }
+            if (isFavorite) {
+                binding.starIcon.setImageResource(R.drawable.starenabled)
+            } else {
+                binding.starIcon.setImageResource(R.drawable.stardisable)
+            }
+        }
+
         binding.starIcon.setOnClickListener {
+
             handleFavoriteClick(product)
         }
 
@@ -79,27 +91,22 @@ class DetailsFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         favoriteDao.deleteFavoriteItem(FavoriteItem(product.id, product.name, product.price, product.image))
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "${product.name} removed from favorites", Toast.LENGTH_SHORT).show()
-                            updateFavoriteIcon(product)
+                            Toast.makeText(requireContext(), "${product.name} Favorilerden Silindi", Toast.LENGTH_SHORT).show()
+
+                            binding.starIcon.setImageResource(R.drawable.stardisable)
                         }
                     }
                 } else {
                     CoroutineScope(Dispatchers.IO).launch {
                         favoriteDao.insertFavoriteItem(FavoriteItem(product.id, product.name, product.price, product.image))
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "${product.name} added to favorites", Toast.LENGTH_SHORT).show()
-                            updateFavoriteIcon(product)
+                            Toast.makeText(requireContext(), "${product.name} Favorilere Eklendi", Toast.LENGTH_SHORT).show()
+
+                            binding.starIcon.setImageResource(R.drawable.starenabled)
                         }
                     }
                 }
             }
-        }
-    }
-
-    private fun updateFavoriteIcon(product: ProductsItem) {
-        val position = adapter.filteredProducts.indexOf(product)
-        if (position != -1) {
-            adapter.notifyItemChanged(position)
         }
     }
 
@@ -108,10 +115,8 @@ class DetailsFragment : Fragment() {
             val exists = cartViewModel.isProductInCart(product.id)
             withContext(Dispatchers.Main) {
                 if (exists) {
-                    // Eğer ürün zaten sepetteyse
                     Toast.makeText(requireContext(), "Bu ürün zaten sepette.", Toast.LENGTH_SHORT).show()
                 } else {
-                    // Eğer ürün sepette değilse, sepete ekle
                     val cartItem = CartItem(
                         id = product.id,
                         name = product.name,
@@ -121,7 +126,6 @@ class DetailsFragment : Fragment() {
                     )
                     cartViewModel.addToCart(cartItem)
 
-                    // Ürünü sepete ekleme mesajı
                     Toast.makeText(requireContext(), "${product.name} sepete eklendi", Toast.LENGTH_SHORT).show()
                 }
             }
